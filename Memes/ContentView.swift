@@ -27,11 +27,12 @@ struct ContentView: View {
                 } label: {
                     HStack {
                         Text("save")
+                            .foregroundColor(.textColor)
                             
                             .foregroundColor(.black)
                         Image(systemName: "square.and.arrow.down")
                             .aspectRatio(contentMode: .fill)
-                            .foregroundColor(.black)
+                            .foregroundColor(.textColor)
                     }
             }
             }.padding()
@@ -42,8 +43,9 @@ struct ContentView: View {
                 
             } placeholder: {
                 VStack {
-                    Text("Start by tap New Meme")
+                    Text("Start by taping New Meme")
                         .font(.title)
+                        .foregroundColor(.textColor)
                     ProgressView()
                         .frame(width: 30, height: 30, alignment: .center)
                 }
@@ -56,7 +58,7 @@ struct ContentView: View {
                 loadMeme()
             } label: {
                 Text("New Meme")
-                    .foregroundColor(.black)
+                    .foregroundColor(.textColor)
                     .font(.title)
             }
             
@@ -90,7 +92,13 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(imageView: UIImage(named: "1234")!)
+        Group {
+            ContentView(imageView: UIImage(named: "1234")!)
+                .previewInterfaceOrientation(.portrait)
+            ContentView(imageView: UIImage(named: "1234")!)
+                .preferredColorScheme(.dark)
+                            .environment(\.colorScheme, .dark)
+        }
         
     }
 }
@@ -117,4 +125,9 @@ class ImageSaver: NSObject {
     @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         print("Save finished!")
     }
+}
+
+
+extension Color {
+  static let textColor = Color("TextColor")
 }
